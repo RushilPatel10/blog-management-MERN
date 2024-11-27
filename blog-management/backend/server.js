@@ -1,20 +1,26 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const postRoutes = require('./routes/postRoutes');
+const db = require("./config/database");
+const express = require("express");
+const Config = require("./config");
+const bodyParser = require("body-parser");
+const blogRoutes = require("./routes/blogRoutes");
+const path = require("path");
+const cors = require("cors");
 
-dotenv.config();
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use('/api/posts', postRoutes);
+app.use("/uploads", express.static("uploads"));
 
-mongoose
-    .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(5000, () => console.log('Server running on port 5000')))
-    .catch(err => console.log(err));
+// Use blog routes
+app.use("/api", blogRoutes)
 
+const PORT = Config.PORT || 5000;
 
-// blogmern
+app.listen(PORT, () => {
+  db();
+  console.log(`Server is running on localhost:${PORT}`);
+});

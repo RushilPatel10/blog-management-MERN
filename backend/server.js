@@ -14,10 +14,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'https://blog-management-mern-frontend.onrender.com'
-    ],
+    origin: 'https://blog-management-mern-frontend.onrender.com',
     credentials: true
 }));
 
@@ -36,7 +33,7 @@ app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-        
+
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
@@ -65,7 +62,7 @@ app.post('/api/register', async (req, res) => {
     try {
         const { email, password, name } = req.body;
         const existingUser = await User.findOne({ email });
-        
+
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
@@ -91,7 +88,7 @@ app.post('/api/register', async (req, res) => {
         await Promise.all(defaultPostPromises);
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        
+
         res.status(201).json({
             token,
             user: {

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 
 const PostContext = createContext();
-const API_URL = 'http://localhost:5000/api';
+const API_URL = "https://blog-management-mern-backend.onrender.com";
 
 export function PostProvider({ children }) {
     const [posts, setPosts] = useState([]);

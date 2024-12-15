@@ -11,7 +11,7 @@ export function PostProvider({ children }) {
     const fetchPosts = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/posts`);
+            const response = await fetch(`${API_URL}/api/posts`);
             const data = await response.json();
             setPosts(data);
         } catch (error) {
@@ -25,7 +25,7 @@ export function PostProvider({ children }) {
     const createPost = async (post) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch(`${API_URL}/posts`, {
+            const response = await fetch(`${API_URL}/api/posts`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export function PostProvider({ children }) {
     const updatePost = async (id, updatedPost) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch(`${API_URL}/posts/${id}`, {
+            const response = await fetch(`${API_URL}/api/posts/${id}`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export function PostProvider({ children }) {
     const deletePost = async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch(`${API_URL}/posts/${id}`, {
+            const response = await fetch(`${API_URL}/api/posts/${id}`, {
                 method: 'DELETE',
                 headers: { 
                     'Authorization': `Bearer ${token}`

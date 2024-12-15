@@ -12,12 +12,15 @@ const Post = require('./models/Post');
 
 const app = express();
 
-// Middleware
+// CORS configuration
 app.use(cors({
-    origin:
-        'https://blog-management-mern-frontend.onrender.com',
+    origin: [
+        'http://localhost:5173',
+        'https://blog-management-mern-frontend.onrender.com'
+    ],
     credentials: true
 }));
+
 app.use(express.json());
 
 // MongoDB Connection
@@ -25,12 +28,15 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
+// API Routes
+app.use('/api/posts', postRoutes);
+
 // Login route
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-
+        
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
@@ -59,7 +65,7 @@ app.post('/api/register', async (req, res) => {
     try {
         const { email, password, name } = req.body;
         const existingUser = await User.findOne({ email });
-
+        
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
@@ -85,7 +91,7 @@ app.post('/api/register', async (req, res) => {
         await Promise.all(defaultPostPromises);
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
+        
         res.status(201).json({
             token,
             user: {
@@ -99,9 +105,6 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
-// Post routes
-app.use('/api/posts', postRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

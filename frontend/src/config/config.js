@@ -1,0 +1,1 @@
+export const API_URL = 'https://blog-management-mern-backend.onrender.com'; 

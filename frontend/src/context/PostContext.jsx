@@ -1,7 +1,9 @@
 import { createContext, useContext, useState } from 'react';
 
 const PostContext = createContext();
-const API_URL = "https://blog-management-mern-backend.onrender.com";
+
+// Update this URL to point to your deployed backend
+const API_URL = 'https://blog-management-mern-backend.onrender.com';
 
 export function PostProvider({ children }) {
     const [posts, setPosts] = useState([]);

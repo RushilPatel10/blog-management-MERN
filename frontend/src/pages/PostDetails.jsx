@@ -12,10 +12,12 @@ function PostDetails() {
   const { deletePost } = usePost();
   const { user } = useAuth();
 
+  const API_URL = 'https://blog-management-mern-backend.onrender.com';
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/posts/${id}`);
+        const response = await fetch(`${API_URL}/api/posts/${id}`);
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message);
